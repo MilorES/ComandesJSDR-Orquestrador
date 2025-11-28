@@ -1,0 +1,53 @@
+# Variables d'entorn - IMPORTANT: No pujar mai fitxers amb credencials
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Docker override per desenvolupament local
+docker-compose.override.yml
+
+# Volums de Docker (si s'exporten localment)
+volumes/
+data/
+db_data/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sistema operatiu
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs i editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Fitxers temporals
+*.tmp
+*.temp
+.cache/
+
+# Backups
+*.bak
+*.backup
+*~
+
+# Claus i certificats
+*.key
+*.pem
+*.crt
+*.cer
+*.p12
+*.pfx
