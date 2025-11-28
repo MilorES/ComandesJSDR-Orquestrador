@@ -24,8 +24,8 @@ services:
 
   # Backend API (.NET)
   comandesapi:
-    image: comandesapi:local
-    container_name: comandes_api
+    image: comandesjsdrapi:local
+    container_name: comandesjsdr_api
     depends_on:
       mariadb:
         condition: service_healthy
@@ -56,8 +56,8 @@ services:
 
   # Frontend (React + Vite)
   comandesfront:
-    image: comandesfront:local
-    container_name: comandes_front
+    image: comandesjsdrfront:local
+    container_name: comandesjsdr_front
     depends_on:
       mariadb:
         condition: service_healthy

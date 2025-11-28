@@ -1,20 +1,14 @@
 #!/bin/bash
 # Ús: ./build-and-deploy.sh [--no-cache]
 # Script per construir i desplegar ComandesJSDR
-# Usage: ./build-and-deploy.sh [--rebuild] [--no-cache]
 
 set -e
 
-REBUILD=false
 NO_CACHE=""
 
 # Parse arguments
 for arg in "$@"; do
     case $arg in
-        --rebuild)
-            REBUILD=true
-            shift
-            ;;
         --no-cache)
             NO_CACHE="--no-cache"
             shift
@@ -44,7 +38,7 @@ echo ""
 # Construir Backend des de GitHub
 echo "Construint Backend API des de GitHub..."
 docker buildx build $NO_CACHE \
-    -t comandesapi:local \
+    -t comandesjsdrapi:local \
     https://github.com/MilorES/ComandesJSDR-Back.git#main \
     -f ComandesAPI/Dockerfile
 
@@ -55,7 +49,7 @@ echo ""
 echo "Construint Frontend des de GitHub..."
 
 docker buildx build $NO_CACHE \
-    -t comandesfront:local \
+    -t comandesjsdrfront:local \
     --build-arg VITE_API_URL=$VITE_API_URL \
     https://github.com/MilorES/ComandesJSDR-Front.git#main \
     -f Dockerfile
@@ -80,4 +74,3 @@ echo "   docker compose logs -f"
 echo ""
 echo "Aturar serveis:"
 echo "   docker compose down"
-echo ""

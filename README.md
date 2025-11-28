@@ -1,10 +1,12 @@
-# ComandesJSDR - Orquestrador
+# Orquestrador ComandesJSDR
 
 ## Descripció
 
+Aquest repositori conté l'orquestrador que gestiona tots els serveis necessaris per executar l'aplicació completa ComandesJSDR (Frontend + Backend + Base de dades).
+
 ComandesJSDR és una plataforma que centralitza la gestió de comandes, automatitzant processos que normalment són manuals. Gràcies a XML-UBL, permet interoperabilitat amb altres sistemes i compliment normatiu sense complicacions.
 
-Aquest repositori conté l'orquestrador que gestiona tots els serveis necessaris per executar l'aplicació completa ComandesJSDR (Frontend + Backend + Base de dades).
+
 
 ## Requisits Previs
 
@@ -15,24 +17,43 @@ Aquest repositori conté l'orquestrador que gestiona tots els serveis necessaris
   - `ComandesJSDR-Front` (es construeix automàticament des de GitHub)
   - `ComandesJSDR-Back` (es construeix automàticament des de GitHub)
 
+## Instal·lació
+
+Primer, clona aquest repositori d'orquestrador:
+
+```shell
+git clone https://github.com/MilorES/ComandesJSDR-Orquestrador.git
+cd ComandesJSDR-Orquestrador
+```
+
+Després segueix les instruccions d'ús ràpid.
+
 ## Ús Ràpid
 
 ### Opció 1: Script Automatitzat (Recomanat)
 
 **Windows (PowerShell):**
-```powershell
-.\build-and-deploy.ps1
-```
-
-**Reconstruir sense caché:**
-```powershell
-.\build-and-deploy.ps1 -NoCache
-```
+- Execució normal:
+  ```powershell
+  .\build-and-deploy.ps1
+  ```
+- Execució sense caché:
+  ```powershell
+  .\build-and-deploy.ps1 -NoCache
+  ```
 
 **Linux/Mac (Bash):**
+- Execució normal:
+  ```bash
+  ./build-and-deploy.sh
+  ```
+- Execució sense caché:
+  ```bash
+  ./build-and-deploy.sh --no-cache
+  ```
+Atenció a l'script necesita permís d'execució
 ```bash
 chmod +x build-and-deploy.sh
-./build-and-deploy.sh
 ```
 
 **Aturar tots els serveis:**
@@ -73,9 +94,9 @@ docker compose down -v --remove-orphans
 
 L'orquestrador gestiona 3 serveis principals mitjançant Docker Compose:
 
-1. **mariadb**: Base de dades MariaDB 10.6 amb persistència de dades
-2. **comandesapi**: Backend API (.NET 9.0) - Es construeix des de https://github.com/MilorES/ComandesJSDR-Back
-3. **comandesfront**: Frontend (React + Vite + Nginx) - Es construeix des de https://github.com/MilorES/ComandesJSDR-Front
+1. **comandesjsdr_mariadb**: Base de dades MariaDB 10.6 amb persistència de dades
+2. **comandesjsdr_api**: Backend API (.NET 9.0) - Es construeix des de https://github.com/MilorES/ComandesJSDR-Back
+3. **comandesjsdr_front**: Frontend (React + Vite + Nginx) - Es construeix des de https://github.com/MilorES/ComandesJSDR-Front
 
 ### Característiques clau
 
@@ -90,7 +111,7 @@ L'orquestrador gestiona 3 serveis principals mitjançant Docker Compose:
 Els serveis s'inicien en aquest ordre gràcies a les dependències i healthchecks:
 
 ```
-mariadb (healthcheck) → comandesapi (healthcheck) → comandesfront
+comandesjsdr_mariadb (healthcheck) → comandesjsdr_api (healthcheck) → comandesjsdr_front
 ```
 
 ## Accés als Serveis
@@ -101,26 +122,6 @@ Després d'iniciar els serveis, podeu accedir a:
 - **Backend API**: http://localhost:5000/api
 - **Health Check**: http://localhost:5000/health
 - **MariaDB**: localhost:3306 (accessible només des de la xarxa Docker interna)
-
-## Variables d'Entorn
-
-Totes les variables es configuren al fitxer `.env`:
-
-| Variable | Descripció | Per Defecte |
-|----------|------------|-------------|
-| `API_PORT` | Port del backend | 5000 |
-| `FRONT_PORT` | Port del frontend | 5173 |
-| `MYSQL_ROOT_PASSWORD` | Contrasenya root MySQL | rootpassword |
-| `MYSQL_DATABASE` | Nom de la base de dades | databaseapi |
-| `MYSQL_USER` | Usuari MySQL | userapi |
-| `MYSQL_PASSWORD` | Contrasenya MySQL | passwordapi |
-| `MYSQL_PORT` | Port intern MySQL | 3306 |
-| `JWT_SECRET_KEY` | Clau secreta JWT | [clau segura] |
-| `JWT_ISSUER` | Emissor del token JWT | ComandesJSDR |
-| `JWT_AUDIENCE` | Audiència del token JWT | ComandesJSDR-API |
-| `CORS_ALLOWED_ORIGINS` | Orígens CORS permesos | http://localhost:3000,http://localhost:5173 |
-| `VITE_API_URL` | URL de l'API pel frontend | http://localhost:5000/api |
-| `ASPNETCORE_ENVIRONMENT` | Entorn d'execució .NET | Production |
 
 ## Comandaments Útils
 
@@ -134,32 +135,26 @@ docker compose logs -f
 
 ```powershell
 # Frontend
-docker compose logs -f comandesfront
+docker compose logs -f comandesjsdr_front
 
 # Backend
-docker compose logs -f comandesapi
+docker compose logs -f comandesjsdr_api
 
 # Base de dades
-docker compose logs -f mariadb
+docker compose logs -f comandesjsdr_mariadb
 ```
 
 ### Reiniciar un servei
 
 ```powershell
-docker compose restart comandesapi
+docker compose restart comandesjsdr_api
 ```
 
-### Reconstruir les imatges
 
+
+Després de reconstruir, pots iniciar els serveis amb:
 ```powershell
-docker compose build
 docker compose up -d
-```
-
-### Reconstruir sense caché
-
-```powershell
-docker compose build --no-cache
 ```
 
 ### Veure l'estat dels serveis
@@ -184,10 +179,10 @@ Tots els serveis implementen health checks per garantir l'ordre correcte d'inici
 
 ## Xarxa Docker
 
-Tots els serveis es comuniquen a través de la xarxa personalitzada `comandes-network`:
+Tots els serveis es comuniquen a través de la xarxa personalitzada `comandesjsdr-network`:
 
 ```
-comandesfront → comandesapi → mariadb
+comandesjsdr_front → comandesjsdr_api → comandesjsdr_mariadb
 ```
 
 Això permet la resolució de noms per hostname i aïllament de la xarxa host.

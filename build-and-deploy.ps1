@@ -35,7 +35,7 @@ Write-Host ""
 Write-Host "Construint Backend API des de GitHub..." -ForegroundColor Blue
 $buildArgs = @(
     "buildx", "build",
-    "-t", "comandesapi:local",
+    "-t", "comandesjsdrapi:local",
     "https://github.com/MilorES/ComandesJSDR-Back.git#main",
     "-f", "ComandesAPI/Dockerfile"
 )
@@ -59,7 +59,7 @@ Write-Host "Construint Frontend des de GitHub..." -ForegroundColor Blue
 
 $frontBuildArgs = @(
     "buildx", "build",
-    "-t", "comandesfront:local",
+    "-t", "comandesjsdrfront:local",
     "--build-arg", "VITE_API_URL=$env:VITE_API_URL",
     "-f", "Dockerfile",
     "https://github.com/MilorES/ComandesJSDR-Front.git#main"
