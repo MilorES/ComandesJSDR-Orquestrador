@@ -1,4 +1,5 @@
 #!/bin/bash
+# Ús: ./build-and-deploy.sh [--no-cache]
 # Script per construir i desplegar ComandesJSDR
 # Usage: ./build-and-deploy.sh [--rebuild] [--no-cache]
 

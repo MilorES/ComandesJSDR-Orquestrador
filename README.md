@@ -8,8 +8,8 @@ Aquest repositori conté l'orquestrador que gestiona tots els serveis necessaris
 
 ## Requisits Previs
 
-- Docker Desktop instal·lat i en funcionament
-- Docker Compose v3.8 o superior
+- **Windows:** Docker Desktop instal·lat i en funcionament
+- **Linux/Mac:** Docker i Docker Compose instal·lats
 - Git (per clonar repositoris)
 - Accés als repositoris GitHub:
   - `ComandesJSDR-Front` (es construeix automàticament des de GitHub)
@@ -24,10 +24,25 @@ Aquest repositori conté l'orquestrador que gestiona tots els serveis necessaris
 .\build-and-deploy.ps1
 ```
 
+**Reconstruir sense caché:**
+```powershell
+.\build-and-deploy.ps1 -NoCache
+```
+
 **Linux/Mac (Bash):**
 ```bash
 chmod +x build-and-deploy.sh
 ./build-and-deploy.sh
+```
+
+**Aturar tots els serveis:**
+```powershell
+docker compose down
+```
+
+**Aturar i eliminar volums (esborrar dades):**
+```powershell
+docker compose down -v --remove-orphans
 ```
 
 El script executarà automàticament:
@@ -42,50 +57,16 @@ El script executarà automàticament:
 - Construccions consistents i reproducibles
 - Ideal per a desplegaments i CI/CD
 
-### Opció 2: Manual
+### Opcions Addicionals
 
-### 1. Configuració Inicial
-
-Copia el fitxer `.env.example` a `.env` i ajusta les variables si cal:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-### 2. Construir Backend des de GitHub
-
-```powershell
-docker buildx build -t comandesapi:local https://github.com/MilorES/ComandesJSDR-Back.git#main -f ComandesAPI/Dockerfile
-```
-
-### 3. Construir Frontend des de GitHub
-
-```powershell
-docker buildx build -t comandesfront:local --build-arg VITE_API_URL=http://localhost:5000/api https://github.com/MilorES/ComandesJSDR-Front.git#main -f Dockerfile
-```
-
-### 4. Iniciar Tots els Serveis
-
-```powershell
-docker compose up -d
-```
-
-### 5. Aturar Tots els Serveis
-
+**Aturar tots els serveis:**
 ```powershell
 docker compose down
 ```
 
-### 6. Aturar i Eliminar Volums (esborrar dades)
-
+**Aturar i eliminar volums (esborrar dades):**
 ```powershell
 docker compose down -v --remove-orphans
-```
-
-### 7. Reconstruir amb --no-cache
-
-```powershell
-.\build-and-deploy.ps1 -NoCache
 ```
 
 ## Arquitectura
@@ -139,7 +120,7 @@ Totes les variables es configuren al fitxer `.env`:
 | `JWT_AUDIENCE` | Audiència del token JWT | ComandesJSDR-API |
 | `CORS_ALLOWED_ORIGINS` | Orígens CORS permesos | http://localhost:3000,http://localhost:5173 |
 | `VITE_API_URL` | URL de l'API pel frontend | http://localhost:5000/api |
-| `ASPNETCORE_ENVIRONMENT` | Entorn d'execució .NET | Development |
+| `ASPNETCORE_ENVIRONMENT` | Entorn d'execució .NET | Production |
 
 ## Comandaments Útils
 
@@ -218,8 +199,7 @@ Això permet la resolució de noms per hostname i aïllament de la xarxa host.
 - Mai commitegis el fitxer `.env` al control de versions
 - Genera contrasenyes i claus secretes aleatòries i segures
 - La variable `JWT_SECRET_KEY` ha de contenir almenys 32 caràcters alfanumèrics
-- Configura `ASPNETCORE_ENVIRONMENT=Production` i ajusta les variables corresponents
-- Limita els orígens CORS a dominis específics de producció
+- Limita els orígens CORS a dominis específics de producció (no utilitzis localhost)
 
 ## Resolució de Problemes
 
@@ -256,22 +236,14 @@ docker compose down -v --remove-orphans
 
 L'opció `--remove-orphans` elimina contenidors orfes que puguin haver quedat d'execucions anteriors.
 
-## Actualització de Serveis
-
-Quan es fan canvis al codi font:
-
-```powershell
-# Reconstruir i reiniciar tots els serveis
-docker compose up -d --build
-
-# Reconstruir només un servei específic
-docker compose up -d --build comandesapi
-```
-
 ## Notes Importants
 
-- Aquesta configuració està optimitzada per a entorns de **desenvolupament**
-- Per a desplegament en producció, cal ajustar `ASPNETCORE_ENVIRONMENT=Production` i revisar totes les variables de seguretat
+- Aquesta configuració està pensada per a entorns de **producció** (construcció automàtica des de GitHub)
+- Abans de desplegar en producció, revisa i personalitza el fitxer `.env`:
+  - Canvia totes les contrasenyes i claus secretes (`JWT_SECRET_KEY`, `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, etc.)
+  - Ajusta `CORS_ALLOWED_ORIGINS` als dominis reals de producció
+  - Verifica que `VITE_API_URL` apunti a la URL pública de la API
+  - Ajusta els ports si cal (`API_PORT`, `FRONT_PORT`)
 - Els health checks garanteixen la inicialització seqüencial i correcta dels serveis
-- Tant el Frontend com el Backend es construeixen automàticament des de GitHub (branca main)
-- Per desenvolupament local amb modificacions, clona els repositoris i ajusta els `build.context` al docker-compose.yml
+- Per actualitzar a l'última versió, simplement executa novament `.\build-and-deploy.ps1`
+- Per desenvolupament local, consulta la documentació específica de cada repositori (`ComandesJSDR-Front` i `ComandesJSDR-Back`)
