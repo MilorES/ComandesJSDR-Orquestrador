@@ -1,9 +1,8 @@
 #!/usr/bin/env pwsh
+# Ús: .\build-and-deploy.ps1 [-NoCache]
 # Script per construir i desplegar ComandesJSDR
-# Usage: .\build-and-deploy.ps1 [--rebuild]
 
 param(
-    [switch]$Rebuild = $false,
     [switch]$NoCache = $false
 )
 
