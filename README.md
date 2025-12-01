@@ -108,8 +108,22 @@ Després d'iniciar els serveis, podeu accedir a:
 
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:5000/api
-- **Health Check**: http://localhost:5000/health
+- **Health Check**: http://localhost:5000/api/health
 - **MariaDB**: localhost:3306 (accessible només des de la xarxa Docker interna)
+
+**Nota Important - Accés des d'altres màquines:**
+
+Si vols accedir als serveis des d'una altra màquina de la xarxa local, substitueix `localhost` per la IP de la màquina host:
+- **Frontend**: http://IP_MAQUINA:5173
+- **Backend API**: http://IP_MAQUINA:5000/api
+
+Per exemple: `http://192.168.1.100:5173`
+
+**IMPORTANT:** Si accedeixes al frontend des d'una altra màquina, també hauràs d'ajustar la variable `VITE_API_URL` al fitxer `.env` per apuntar a la IP real de la màquina host (no localhost), ja que el frontend executa JavaScript al navegador del client i necessita conèixer la URL correcta de l'API:
+
+```env
+VITE_API_URL=http://192.168.1.100:5000/api
+```
 
 ## Comandaments Útils
 
@@ -193,6 +207,8 @@ Això permet la resolució de noms per hostname i aïllament de la xarxa host.
 ### El frontend no es connecta a l'API
 
 Verifica que `VITE_API_URL` al `.env` coincideixi amb el port de l'API.
+
+**Important:** Si accedeixes al frontend des d'una altra màquina (no localhost), `VITE_API_URL` ha d'apuntar a la IP de la màquina host, no a localhost. Per exemple: `http://192.168.1.100:5000/api`
 
 ### Error de connexió a la base de dades
 
