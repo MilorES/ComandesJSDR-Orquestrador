@@ -6,8 +6,6 @@ Aquest repositori conté l'orquestrador que gestiona tots els serveis necessaris
 
 ComandesJSDR és una plataforma que centralitza la gestió de comandes, automatitzant processos que normalment són manuals. Gràcies a XML-UBL, permet interoperabilitat amb altres sistemes i compliment normatiu sense complicacions.
 
-
-
 ## Requisits Previs
 
 - **Windows:** Docker Desktop instal·lat i en funcionament
@@ -43,6 +41,12 @@ Després segueix les instruccions d'ús ràpid.
   ```
 
 **Linux/Mac (Bash):**
+
+**Nota:** L'script necessita permís d'execució. Executa primer:
+```bash
+chmod +x build-and-deploy.sh
+```
+
 - Execució normal:
   ```bash
   ./build-and-deploy.sh
@@ -51,10 +55,6 @@ Després segueix les instruccions d'ús ràpid.
   ```bash
   ./build-and-deploy.sh --no-cache
   ```
-Atenció a l'script necesita permís d'execució
-```bash
-chmod +x build-and-deploy.sh
-```
 
 **Aturar tots els serveis:**
 ```powershell
@@ -77,18 +77,6 @@ El script executarà automàticament:
 - No cal clonar repositoris localment
 - Construccions consistents i reproducibles
 - Ideal per a desplegaments i CI/CD
-
-### Opcions Addicionals
-
-**Aturar tots els serveis:**
-```powershell
-docker compose down
-```
-
-**Aturar i eliminar volums (esborrar dades):**
-```powershell
-docker compose down -v --remove-orphans
-```
 
 ## Arquitectura
 
@@ -150,7 +138,11 @@ docker compose logs -f comandesjsdr_mariadb
 docker compose restart comandesjsdr_api
 ```
 
+### Reconstruir les imatges
 
+```powershell
+docker compose build
+```
 
 Després de reconstruir, pots iniciar els serveis amb:
 ```powershell
@@ -166,7 +158,7 @@ docker compose ps
 ### Executar migracions manualment
 
 ```powershell
-docker exec -it comandes_api dotnet ef database update
+docker exec -it comandesjsdr_api dotnet ef database update
 ```
 
 ## Health Checks
