@@ -201,6 +201,17 @@ Això permet la resolució de noms per hostname i aïllament de la xarxa host.
 - Genera contrasenyes i claus secretes aleatòries i segures
 - La variable `JWT_SECRET_KEY` ha de contenir almenys 32 caràcters alfanumèrics
 - Limita els orígens CORS a dominis específics de producció (no utilitzis localhost)
+- **HTTPS obligatori**: Per entorns de producció, utilitza un proxy invers (Nginx, Traefik, Caddy) amb certificats SSL/TLS per securitzar les comunicacions. Els serveis actuals exposen HTTP sense xifratge, adequat només per desenvolupament i xarxes locals protegides.
+
+**Configuració HTTPS amb Proxy Invers:**
+
+Per exposar els serveis de forma segura a Internet, configura un proxy invers davant dels containers:
+
+```
+Internet (HTTPS) → Proxy Invers (Nginx/Traefik/Caddy) → Containers (HTTP)
+                    ↓                              ↑
+                  Certificats SSL/TLS  (Let's Encrypt)         
+```
 
 ## Resolució de Problemes
 
