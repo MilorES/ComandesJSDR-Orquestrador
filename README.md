@@ -229,7 +229,7 @@ FRONT_PORT=5174
 
 ## Gestió de Volums
 
-El volum `db_data` proporciona persistència per a les dades de MariaDB.
+El volum `comandesjsdr_db_data` proporciona persistència per a les dades de MariaDB.
 
 Per eliminar completament les dades (reinici complet):
 
