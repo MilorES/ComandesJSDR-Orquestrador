@@ -90,7 +90,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "Accés als serveis:" -ForegroundColor Cyan
     Write-Host "   Frontend:  http://localhost:5173" -ForegroundColor White
     Write-Host "   Backend:   http://localhost:5000/api" -ForegroundColor White
-    Write-Host "   Health:    http://localhost:5000/health" -ForegroundColor White
+    Write-Host "   Health:    http://localhost:5000/api/health" -ForegroundColor White
     Write-Host ""
     Write-Host "Veure logs:" -ForegroundColor Cyan
     Write-Host "   docker compose logs -f" -ForegroundColor White
