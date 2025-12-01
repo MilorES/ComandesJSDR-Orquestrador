@@ -95,7 +95,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "Tots els serveis iniciats correctament!" -ForegroundColor Green
     Write-Host ""
     Write-Host "Accés als serveis:" -ForegroundColor Cyan
-    Write-Host "   Frontend:  http://localhost:5173" -ForegroundColor White
+    Write-Host "   Frontend:  http://localhost:$env:FRONT_PORT" -ForegroundColor White
     Write-Host "   Backend:   $env:VITE_API_URL" -ForegroundColor White
     Write-Host "   Health:    $env:VITE_API_URL/health" -ForegroundColor White
     Write-Host ""
