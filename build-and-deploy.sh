@@ -33,6 +33,13 @@ export $(grep -v '^#' .env | xargs)
 
 echo "Variables d'entorn carregades des de .env"
 echo "VITE_API_URL = $VITE_API_URL"
+
+# Validar que VITE_API_URL estigui definit
+if [ -z "$VITE_API_URL" ]; then
+    echo "Error: VITE_API_URL no està definit al fitxer .env"
+    exit 1
+fi
+
 echo ""
 
 # Construir Backend des de GitHub
@@ -65,9 +72,9 @@ echo ""
 echo "Tots els serveis iniciats correctament!"
 echo ""
 echo "Accés als serveis:"
-echo "   Frontend:  http://localhost:5173"
-echo "   Backend:   http://localhost:5000/api"
-echo "   Health:    http://localhost:5000/api/health"
+echo "   Frontend:  http://localhost:${FRONT_PORT:-5173}"
+echo "   Backend:   $VITE_API_URL"
+echo "   Health:    $VITE_API_URL/health"
 echo ""
 echo "Veure logs:"
 echo "   docker compose logs -f"

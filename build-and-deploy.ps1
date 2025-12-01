@@ -29,6 +29,13 @@ Get-Content ".env" | ForEach-Object {
 
 Write-Host "Variables d'entorn carregades des de .env" -ForegroundColor Green
 Write-Host "VITE_API_URL = $env:VITE_API_URL" -ForegroundColor Gray
+
+# Validar que VITE_API_URL estigui definit
+if ([string]::IsNullOrWhiteSpace($env:VITE_API_URL)) {
+    Write-Host "Error: VITE_API_URL no està definit al fitxer .env" -ForegroundColor Red
+    exit 1
+}
+
 Write-Host ""
 
 # Construir Backend des de GitHub
@@ -89,8 +96,8 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host ""
     Write-Host "Accés als serveis:" -ForegroundColor Cyan
     Write-Host "   Frontend:  http://localhost:5173" -ForegroundColor White
-    Write-Host "   Backend:   http://localhost:5000/api" -ForegroundColor White
-    Write-Host "   Health:    http://localhost:5000/api/health" -ForegroundColor White
+    Write-Host "   Backend:   $env:VITE_API_URL" -ForegroundColor White
+    Write-Host "   Health:    $env:VITE_API_URL/health" -ForegroundColor White
     Write-Host ""
     Write-Host "Veure logs:" -ForegroundColor Cyan
     Write-Host "   docker compose logs -f" -ForegroundColor White
