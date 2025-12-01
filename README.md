@@ -57,12 +57,12 @@ chmod +x build-and-deploy.sh
   ```
 
 **Aturar tots els serveis:**
-```powershell
+```shell
 docker compose down
 ```
 
 **Aturar i eliminar volums (esborrar dades):**
-```powershell
+```shell
 docker compose down -v --remove-orphans
 ```
 
@@ -115,13 +115,13 @@ Després d'iniciar els serveis, podeu accedir a:
 
 ### Veure logs de tots els serveis
 
-```powershell
+```shell
 docker compose logs -f
 ```
 
 ### Veure logs d'un servei específic
 
-```powershell
+```shell
 # Frontend
 docker compose logs -f comandesjsdr_front
 
@@ -134,30 +134,30 @@ docker compose logs -f comandesjsdr_mariadb
 
 ### Reiniciar un servei
 
-```powershell
+```shell
 docker compose restart comandesjsdr_api
 ```
 
 ### Reconstruir les imatges
 
-```powershell
+```shell
 docker compose build
 ```
 
 Després de reconstruir, pots iniciar els serveis amb:
-```powershell
+```shell
 docker compose up -d
 ```
 
 ### Veure l'estat dels serveis
 
-```powershell
+```shell
 docker compose ps
 ```
 
 ### Executar migracions manualment
 
-```powershell
+```shell
 docker exec -it comandesjsdr_api dotnet ef database update
 ```
 
@@ -198,7 +198,7 @@ Verifica que `VITE_API_URL` al `.env` coincideixi amb el port de l'API.
 
 Comprova que el servei mariadb estigui healthy:
 
-```powershell
+```shell
 docker compose ps
 ```
 
@@ -217,7 +217,7 @@ El volum `db_data` proporciona persistència per a les dades de MariaDB.
 
 Per eliminar completament les dades (reinici complet):
 
-```powershell
+```shell
 docker compose down -v --remove-orphans
 ```
 
