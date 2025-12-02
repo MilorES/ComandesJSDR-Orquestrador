@@ -28,7 +28,7 @@ Després segueix les instruccions d'ús ràpid.
 
 ## Ús Ràpid
 
-### Opció 1: Script Automatitzat (Recomanat)
+### Script Automatitzat
 
 **Windows (PowerShell):**
 - Execució normal:
