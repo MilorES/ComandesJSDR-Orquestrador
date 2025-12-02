@@ -119,7 +119,7 @@ Si vols accedir als serveis des d'una altra màquina de la xarxa local, substitu
 
 Per exemple: `http://192.168.1.100:5173`
 
-**IMPORTANT:** Si accedeixes al frontend des d'una altra màquina, també hauràs d'ajustar la variable `VITE_API_URL` al fitxer `.env` per apuntar a la IP real de la màquina host (no localhost), ja que el frontend executa JavaScript al navegador del client i necessita conèixer la URL correcta de l'API:
+**IMPORTANT:** També hauràs d'ajustar la variable `VITE_API_URL` al fitxer `.env` per apuntar a la IP real de la màquina host (no localhost), ja que el frontend executa JavaScript al navegador del client i necessita conèixer la URL correcta de l'API:
 
 ```env
 VITE_API_URL=http://192.168.1.100:5000/api
@@ -211,6 +211,11 @@ Per exposar els serveis de forma segura a Internet, configura un proxy invers da
 Internet (HTTPS) → Proxy Invers (Nginx/Traefik/Caddy) → Containers (HTTP)
                     ↓                              ↑
                   Certificats SSL/TLS  (Let's Encrypt)         
+```
+**IMPORTANT:** També hauràs d'ajustar la variable `VITE_API_URL` al fitxer `.env` per apuntar al FQDN de la API, ja que el frontend executa JavaScript al navegador del client i necessita conèixer la URL correcta de l'API:
+
+```env
+VITE_API_URL=https://FQDN/api
 ```
 
 ## Resolució de Problemes
